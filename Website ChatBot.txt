@@ -1,78 +1,390 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FitLife - Your Fitness Buddy</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f7f6;
-    }
-    header {
-      background-color: #3d1be7;
-      color: white;
-      text-align: center;
-      padding: 1.5rem 0;
-    }
-    section {
-      padding: 2rem;
-    }
-    .section-title {
-      font-size: 24px;
-      color: #2c3e50;
-      margin-bottom: 1rem;
-    }
-    .bot-info {
-      background-color: #ecf9f1;
-      padding: 1rem;
-      border-left: 5px solid #005b26;
-      margin-top: 2rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: rgb(249, 250, 251);
+        }
+
+        header {
+            background-color: #3d1be7;
+            color: white;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .header-content {
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.25rem;
+            color: rgb(229, 219, 255);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 1rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        main {
+            padding: 3rem 1rem;
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .section-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-icon {
+            display: inline-flex;
+            padding: 0.5rem;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .icon-wrapper {
+            display: inline-block;
+            padding: 0.75rem;
+            background-color: rgb(243, 232, 255);
+            border-radius: 9999px;
+            margin-bottom: 1rem;
+        }
+
+        .form-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .form-subtitle {
+            font-size: 1.25rem;
+            color: rgb(75, 85, 99);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: rgb(55, 65, 81);
+            margin-bottom: 0.25rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid rgb(209, 213, 219);
+            border-radius: 0.375rem;
+            font-size: 1rem;
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            background-color: #3d1be7;
+            color: white;
+            padding: 0.625rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background-color: #341ac5;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background-color: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div id="app">
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="header-title">FitLife</h1>
+                    <p class="header-subtitle">Your Daily Dose of Fitness and Nutrition</p>
+                </div>
+                <nav>
+                    <a href="#" class="nav-link active" data-page="home">Home</a>
+                    <a href="#" class="nav-link" data-page="about">About</a>
+                    <a href="#" class="nav-link" data-page="contact">Contact</a>
+                </nav>
+            </div>
+        </header>
 
-  <header>
-    <h1>FitLife</h1>
-    <p>Your Daily Dose of Fitness and Nutrition</p>
-  </header>
+        
+        <main>
+            <!-- Home Page -->
+            <div id="home" class="page active">
+                <div class="space-y-8">
+                    <section class="section-card">
+                        <div class="section-icon">
+                            <span style="font-size: 1.5rem;">🏋️</span>
+                        </div>
+                        <h2 class="text-2xl font-semibold mb-4">Fitness Tips</h2>
+                        <p class="text-gray-600">
+                            Stay active, stretch daily, follow a consistent workout routine, and never skip your warm-up!
+                        </p>
+                    </section>
 
-  <section>
-    <div class="section-title">🏋️ Fitness Tips</div>
-    <p>Stay active, stretch daily, follow a consistent workout routine, and never skip your warm-up!</p>
-  </section>
+                    <section class="section-card">
+                        <div class="section-icon">
+                            <span style="font-size: 1.5rem;">🥗</span>
+                        </div>
+                        <h2 class="text-2xl font-semibold mb-4">Healthy Diet</h2>
+                        <p class="text-gray-600">
+                            Eat a balanced diet rich in proteins, fiber, and healthy fats. Drink plenty of water and limit processed foods.
+                        </p>
+                    </section>
 
-  <section>
-    <div class="section-title">🥗 Healthy Diet</div>
-    <p>Eat a balanced diet rich in proteins, fiber, and healthy fats. Drink plenty of water and limit processed foods.</p>
-  </section>
+                    <section class="section-card" style="background-color: #f0fdf4; border-left: 4px solid #16a34a;">
+                        <div class="section-icon">
+                            <span style="font-size: 1.5rem;">🤖</span>
+                        </div>
+                        <h2 class="text-2xl font-semibold mb-4">Meet Your Fitness Bot</h2>
+                        <p class="text-gray-600">
+                            Ask me anything about workouts, diets, or your fitness journey!
+                        </p>
+                    </section>
+                </div>
+            </div>
 
-  <section class="bot-info">
-    <div class="section-title">🤖 Meet Your Fitness Bot</div>
-    <p>Ask me anything about workouts, diets, or your fitness journey!</p>
-  </section>
+
+            <!-- About Page -->
+            <div id="about" class="page">
+                <div class="section-card">
+                    <div class="section-icon">
+                        <span style="font-size: 1.5rem;">🎯</span>
+                    </div>
+                    <h2 class="text-2xl font-semibold mb-4">About Us</h2>
+                    <p class="text-gray-600 mb-4">
+                        At FitLife, we believe in empowering individuals to achieve their fitness goals through expert guidance and personalized support.
+                    </p>
+                    <p class="text-gray-600 mb-4">
+                        Our team of certified fitness professionals and nutritionists work together to provide you with the most effective and sustainable approaches to health and wellness.
+                    </p>
+                    <p class="text-gray-600">
+                        Whether you're just starting your fitness journey or looking to take your training to the next level, we're here to help you succeed.
+                    </p>
+                </div>
+            </div>
 
 
-  
-  <script type="text/javascript">
-    (function(d, t) {
-        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-        v.onload = function() {
-          window.voiceflow.chat.load({
-            verify: { projectID: '67f2da1d5d3e39ae640dc4a2' },
-            url: 'https://general-runtime.voiceflow.com',
-            versionID: 'production',
-            voice: {
-              url: "https://runtime-api.voiceflow.com"
+            <!-- Contact Page -->
+            <div id="contact" class="page">
+                <div class="contact-form">
+                    <div class="form-header">
+                        <div class="icon-wrapper">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3d1be7" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <h1 class="form-title">Get in Touch</h1>
+                        <p class="form-subtitle">Have questions? We'd love to hear from you.</p>
+                    </div>
+
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" required placeholder="Your name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required placeholder="your.email@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" required placeholder="How can we help you?"></textarea>
+                        </div>
+
+                        <button type="submit">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                            </svg>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <div id="toast" class="toast">
+            Message Sent! We'll get back to you as soon as possible.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(pageId).classList.add('active');
             }
-          });
-        }
-        v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-    })(document, 'script');
-  </script>
 
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('data-page');
+                    
+                
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    
+                    showPage(pageId);
+                });
+            });
+
+
+            const contactForm = document.getElementById('contactForm');
+            const toast = document.getElementById('toast');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    
+                    toast.style.display = 'block';
+                    
+                    
+                    setTimeout(() => {
+                        toast.style.display = 'none';
+                    }, 3000);
+
+            
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+
+    <!-- chatbot script -->
+    <script type="text/javascript">
+        (function(d, t) {
+            var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            v.onload = function() {
+              window.voiceflow.chat.load({
+                verify: { projectID: '680611d004e67c4f4fe93d94' },
+                url: 'https://general-runtime.voiceflow.com',
+                versionID: 'production',
+                voice: {
+                  url: "https://runtime-api.voiceflow.com"
+                }
+              });
+            }
+            v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+        })(document, 'script');
+      </script>
 </body>
 </html>
